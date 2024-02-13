@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Dotnet6BasicWebApp.Areas.Auth.Models
+namespace Dotnet6BasicWebApp.Areas.Account.Models
 {
     public class ApplicationRoleViewModel
     {

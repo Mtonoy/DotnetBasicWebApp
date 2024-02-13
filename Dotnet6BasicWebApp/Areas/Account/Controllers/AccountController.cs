@@ -1,4 +1,4 @@
-﻿using Dotnet6BasicWebApp.Areas.Auth.Models;
+﻿using Dotnet6BasicWebApp.Areas.Account.Models;
 using Dotnet6BasicWebApp.Controllers;
 using Dotnet6BasicWebApp.Data.Entity;
 using Dotnet6BasicWebApp.Helpers;
@@ -12,6 +12,8 @@ using System.IO;
 
 namespace Dotnet6BasicWebApp.Areas.Account.Controllers
 {
+    [Authorize]
+    [Area("Account")]
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -66,7 +68,7 @@ namespace Dotnet6BasicWebApp.Areas.Account.Controllers
 
                     List<string> userRoles = await userInfoes.UsersRoles(model.Name);
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Home", new { Area = "" });
 
                 }
                 else
@@ -152,14 +154,14 @@ namespace Dotnet6BasicWebApp.Areas.Account.Controllers
                     if (result.Succeeded)
                     {
                         await _userManager.AddToRoleAsync(user, model.RoleId);
-                        return RedirectToAction("Register", "Account", new { Area = "Auth" });
+                        return RedirectToAction("Register", "Account", new { Area = "Account" });
                     }
                     else
                     {
                         AddErrors(result);
                     }
 
-                    return RedirectToAction("Register", "Account", new { Area = "Auth" });
+                    return RedirectToAction("Register", "Account", new { Area = "Account" });
                 }
                 catch (Exception ex)
                 {
@@ -169,7 +171,7 @@ namespace Dotnet6BasicWebApp.Areas.Account.Controllers
             }
             else
             {
-                return RedirectToAction("Register", "Account", new { Area = "Auth" });
+                return RedirectToAction("Register", "Account", new { Area = "Account" });
             }
         }
 
@@ -182,7 +184,7 @@ namespace Dotnet6BasicWebApp.Areas.Account.Controllers
             //_logger.LogInformation("User logged out.");
             var ip = Request.HttpContext.Connection.RemoteIpAddress.ToString();
 
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+            return RedirectToAction("Index", "Home", new { Area = "" });
         }
 
         #endregion
